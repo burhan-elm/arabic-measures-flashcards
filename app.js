@@ -11,6 +11,7 @@ class ArabicPracticeApp {
         this.score = { correct: 0, total: 0 };
         this.isAnswerRevealed = false;
         this.colorCodingEnabled = false; // Default: color coding is OFF
+        this.isMobile = window.innerWidth <= 768; // Detect mobile devices
         
         this.initializeElements();
         this.attachEventListeners();
@@ -447,8 +448,8 @@ class ArabicPracticeApp {
     }
 
     colorCodePattern(conjugatedWord, formNumber, originalPattern) {
-        // Check if color coding is enabled
-        if (!this.colorCodingEnabled) {
+        // Check if color coding is enabled and not on mobile (mobile has rendering issues)
+        if (!this.colorCodingEnabled || this.isMobile) {
             return conjugatedWord;
         }
         
