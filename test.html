@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabic Engine Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .arabic {
+            font-family: 'Scheherazade New', serif;
+            font-size: 1.6em;
+            font-weight: 400;
+            direction: rtl;
+            text-align: right;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        .test-section {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Arabic Verb Engine Test</h1>
+
+    <div class="test-section">
+        <div class="test-title">Test 1: Basic Conjugation (Root: ف-ع-ل)</div>
+        <div id="test1"></div>
+    </div>
+
+    <div class="test-section">
+        <div class="test-title">Test 2: Form II Conjugation (Root: ك-ت-ب)</div>
+        <div id="test2"></div>
+    </div>
+
+    <div class="test-section">
+        <div class="test-title">Test 3: Random Practice Card Generation</div>
+        <div id="test3"></div>
+    </div>
+
+    <div class="test-section">
+        <div class="test-title">Test 4: All Forms for Root (ن-ص-ر)</div>
+        <div id="test4"></div>
+    </div>
+
+    <div class="test-section">
+        <div class="test-title">Test 5: New Conjugation Types (ك-ت-ب in Form I)</div>
+        <div id="test5"></div>
+    </div>
+
+    <script src="arabic-engine.js"></script>
+    <script>
+        // Initialize the engine
+        const engine = new ArabicVerbEngine();
+
+        // Test 1: Basic conjugation with ف-ع-ل
+        function runTest1() {
+            const root = ['ف', 'ع', 'ل'];
+            const result = engine.generateConjugations(root, 1);
+            
+            let output = '<p><strong>Root:</strong> ' + root.join('-') + '</p>';
+            output += '<p><strong>Form:</strong> ' + result.formName + '</p>';
+            output += '<p><strong>Description:</strong> ' + result.description + '</p>';
+            
+            for (const [type, word] of Object.entries(result.conjugations)) {
+                if (word) {
+                    output += '<p><strong>' + type + ':</strong> <span class="arabic">' + word + '</span></p>';
+                }
+            }
+            
+            document.getElementById('test1').innerHTML = output;
+        }
+
+        // Test 2: Form II with ك-ت-ب
+        function runTest2() {
+            const root = ['ك', 'ت', 'ب'];
+            const result = engine.generateConjugations(root, 2);
+            
+            let output = '<p><strong>Root:</strong> ' + root.join('-') + '</p>';
+            output += '<p><strong>Form:</strong> ' + result.formName + '</p>';
+            output += '<p><strong>Description:</strong> ' + result.description + '</p>';
+            
+            for (const [type, word] of Object.entries(result.conjugations)) {
+                if (word) {
+                    output += '<p><strong>' + type + ':</strong> <span class="arabic">' + word + '</span></p>';
+                }
+            }
+            
+            document.getElementById('test2').innerHTML = output;
+        }
+
+        // Test 3: Random card generation with new types
+        function runTest3() {
+            const allowedForms = [1, 2, 3, 4, 5];
+            const allowedTypes = ['perfect', 'imperfect', 'passive_perfect', 'passive_imperfect', 'imperative', 'active_participle'];
+            
+            let output = '<p><strong>Random Practice Cards (Including New Types):</strong></p>';
+            
+            for (let i = 0; i < 8; i++) {
+                const card = engine.generatePracticeCard(allowedForms, allowedTypes);
+                output += '<div style="margin: 10px 0; padding: 10px; background: #f9f9f9; border-radius: 5px;">';
+                output += '<p><strong>Question:</strong> <span class="arabic">' + card.question.word + '</span></p>';
+                output += '<p><strong>Answer:</strong> Root: ' + card.answer.rootDisplay + ', Form: ' + card.answer.formName + ', Type: ' + card.answer.type + '</p>';
+                output += '</div>';
+            }
+            
+            document.getElementById('test3').innerHTML = output;
+        }
+
+        // Test 4: All forms for a single root
+        function runTest4() {
+            const root = ['ن', 'ص', 'ر'];
+            let output = '<p><strong>Root:</strong> ' + root.join('-') + ' (meaning: to help)</p>';
+            
+            for (let form = 1; form <= 10; form++) {
+                try {
+                    const result = engine.generateConjugations(root, form);
+                    output += '<div style="margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 5px;">';
+                    output += '<p><strong>' + result.formName + ':</strong> ' + result.description + '</p>';
+                    
+                    // Show just perfect and imperfect for brevity
+                    if (result.conjugations.perfect) {
+                        output += '<p>Perfect: <span class="arabic">' + result.conjugations.perfect + '</span></p>';
+                    }
+                    if (result.conjugations.imperfect) {
+                        output += '<p>Imperfect: <span class="arabic">' + result.conjugations.imperfect + '</span></p>';
+                    }
+                    output += '</div>';
+                } catch (error) {
+                    // Skip forms that might have issues
+                    continue;
+                }
+            }
+            
+            document.getElementById('test4').innerHTML = output;
+        }
+
+        // Test 5: New conjugation types
+        function runTest5() {
+            const root = ['ك', 'ت', 'ب'];
+            const result = engine.generateConjugations(root, 1);
+            
+            let output = '<p><strong>Root:</strong> ' + root.join('-') + ' (meaning: to write)</p>';
+            output += '<p><strong>Form I - All Conjugation Types:</strong></p>';
+            
+            // Show all conjugation types including new ones
+            const typesToShow = ['perfect', 'imperfect', 'passive_perfect', 'passive_imperfect', 'imperative', 'active_participle', 'passive_participle', 'verbal_noun'];
+            
+            for (const type of typesToShow) {
+                const word = result.conjugations[type];
+                if (word && word !== '-') {
+                    const typeName = engine.typeNames[type] || type;
+                    output += '<p><strong>' + typeName + ':</strong> <span class="arabic">' + word + '</span></p>';
+                } else if (word === '-') {
+                    const typeName = engine.typeNames[type] || type;
+                    output += '<p><strong>' + typeName + ':</strong> <em>Not available for this form</em></p>';
+                }
+            }
+            
+            document.getElementById('test5').innerHTML = output;
+        }
+
+        // Run all tests
+        runTest1();
+        runTest2();
+        runTest3();
+        runTest4();
+        runTest5();
+
+        console.log('Arabic Engine Tests Complete');
+        console.log('Engine initialized:', engine);
+        console.log('Available forms:', Object.keys(engine.getAllForms()));
+        console.log('Available types:', Object.keys(engine.typeNames));
+    </script>
+</body>
+</html>

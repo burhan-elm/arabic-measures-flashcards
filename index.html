@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabic Verb Forms Practice</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Arabic Verb Forms Practice</h1>
+        </header>
+
+        <main class="main-content">
+            <!-- Settings Panel -->
+            <div class="settings-panel" id="settingsPanel">
+                <h3>Practice Settings</h3>
+                <div class="setting-group">
+                    <label>Select Verb Forms:</label>
+                    <div class="form-checkboxes">
+                        <label><input type="checkbox" class="form-checkbox" value="1" checked> Form I</label>
+                        <label><input type="checkbox" class="form-checkbox" value="2" checked> Form II</label>
+                        <label><input type="checkbox" class="form-checkbox" value="3" checked> Form III</label>
+                        <label><input type="checkbox" class="form-checkbox" value="4" checked> Form IV</label>
+                        <label><input type="checkbox" class="form-checkbox" value="5" checked> Form V</label>
+                        <label><input type="checkbox" class="form-checkbox" value="6" checked> Form VI</label>
+                        <label><input type="checkbox" class="form-checkbox" value="7" checked> Form VII</label>
+                        <label><input type="checkbox" class="form-checkbox" value="8" checked> Form VIII</label>
+                        <label><input type="checkbox" class="form-checkbox" value="9"> Form IX</label>
+                        <label><input type="checkbox" class="form-checkbox" value="10" checked> Form X</label>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>Select Conjugation Types:</label>
+                    <div class="type-checkboxes">
+                        <label><input type="checkbox" class="type-checkbox" value="perfect" checked> Perfect (Past)</label>
+                        <label><input type="checkbox" class="type-checkbox" value="imperfect" checked> Imperfect (Present)</label>
+                        <label><input type="checkbox" class="type-checkbox" value="passive_perfect"> Passive Perfect (Past)</label>
+                        <label><input type="checkbox" class="type-checkbox" value="passive_imperfect"> Passive Imperfect (Present)</label>
+                        <label><input type="checkbox" class="type-checkbox" value="imperative"> Imperative (Command)</label>
+                        <label><input type="checkbox" class="type-checkbox" value="active_participle" checked> Active Participle</label>
+                        <label><input type="checkbox" class="type-checkbox" value="passive_participle"> Passive Participle</label>
+                        <label><input type="checkbox" class="type-checkbox" value="verbal_noun" checked> Verbal Noun (Masdar)</label>
+                    </div>
+                </div>
+
+                <button id="startPractice" class="btn btn-primary">Start Practice</button>
+            </div>
+
+            <!-- Flashcard Interface -->
+            <div class="flashcard-container" id="flashcardContainer" style="display: none;">
+                <div class="stats">
+                    <span id="cardCounter">Card 1 of 50</span>
+                    <span id="score">Score: 0/0</span>
+                </div>
+
+                <div class="card-instructions">
+                    <p>Identify the Root Letters, Form (I-X), and Conjugation Type of the verb</p>
+                </div>
+
+                <div class="flashcard" id="flashcard">
+                    <div class="card-content">
+                        <div class="arabic-word" id="arabicWord">فَعَلَ</div>
+                    </div>
+                </div>
+
+                <div class="answer-section" id="answerSection" style="display: none;">
+                    <div class="answer-content">
+                        <h4>Answer:</h4>
+                        <div class="answer-details">
+                            <p><strong>Root:</strong> <span id="answerRoot" class="arabic">ف-ع-ل</span></p>
+                            <p><strong>Form:</strong> <span id="answerForm">I</span> - <span id="answerFormDesc">Basic meaning</span></p>
+                            <p><strong>Type:</strong> <span id="answerType">Perfect (Past tense)</span></p>
+                            <p><strong>Pattern:</strong> <span id="answerPattern" class="arabic">فَعَلَ</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-controls">
+                    <button id="revealBtn" class="btn btn-secondary">Reveal Answer</button>
+                    <button id="correctBtn" class="btn btn-success" style="display: none;">✓ Correct</button>
+                    <button id="incorrectBtn" class="btn btn-danger" style="display: none;">✗ Incorrect</button>
+                    <button id="nextBtn" class="btn btn-primary" style="display: none;">Next Card</button>
+                </div>
+
+                <div class="practice-controls">
+                    <button id="backToSettings" class="btn btn-text">← Back to Settings</button>
+                    <button id="showReference" class="btn btn-text">📖 Reference Table</button>
+                    <button id="newSession" class="btn btn-text">New Session</button>
+                </div>
+            </div>
+
+            <!-- Reference Table Overlay -->
+            <div class="reference-overlay" id="referenceOverlay" style="display: none;">
+                <div class="reference-modal">
+                    <div class="reference-header">
+                        <h3>Arabic Verb Forms Reference</h3>
+                        <div class="reference-controls">
+                            <div class="toggle-container">
+                                <span class="toggle-label">Highlight additions</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="colorCodingToggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <button id="closeReference" class="btn btn-secondary">✕</button>
+                        </div>
+                    </div>
+                    <div class="reference-content">
+                        <div class="table-container">
+                            <table class="verb-forms-table" id="verbFormsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Passive Participle</th>
+                                        <th>Active Participle</th>
+                                        <th>Verbal Noun</th>
+                                        <th>Passive Imperfect</th>
+                                        <th>Passive Perfect</th>
+                                        <th>Imperative</th>
+                                        <th>Imperfect</th>
+                                        <th>Perfect</th>
+                                        <th>Form</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="verbFormsTableBody">
+                                    <!-- Table rows will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Summary -->
+            <div class="results-container" id="resultsContainer" style="display: none;">
+                <h2>Practice Session Complete!</h2>
+                <div class="results-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="finalScore">0</span>
+                        <span class="stat-label">Total Score</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="accuracy">0%</span>
+                        <span class="stat-label">Accuracy</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCards">0</span>
+                        <span class="stat-label">Cards Practiced</span>
+                    </div>
+                </div>
+                <div class="results-actions">
+                    <button id="practiceAgain" class="btn btn-primary">Practice Again</button>
+                    <button id="backToStart" class="btn btn-secondary">Back to Settings</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="arabic-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
