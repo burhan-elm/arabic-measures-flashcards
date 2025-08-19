@@ -400,10 +400,18 @@ class ArabicVerbEngine {
      * @param {Array} allowedTypes - Array of conjugation types to include
      * @returns {Object} - Practice card with question and answer
      */
-    generatePracticeCard(allowedForms, allowedTypes) {
-        // Select random root
-        const randomRoot = this.commonRoots[Math.floor(Math.random() * this.commonRoots.length)];
-        const root = randomRoot.slice(0, 3); // Take only the 3 letters, not the meaning
+    generatePracticeCard(allowedForms, allowedTypes, learningMode = 'mixed') {
+        // Select root based on learning mode
+        let randomRoot, root;
+        if (learningMode === 'patterns') {
+            // Use only the canonical ف-ع-ل root for pattern practice
+            randomRoot = ['ف', 'ع', 'ل', 'to do', 'فَتحة', 'ضَمّة'];
+            root = ['ف', 'ع', 'ل'];
+        } else {
+            // Use random root from all common roots
+            randomRoot = this.commonRoots[Math.floor(Math.random() * this.commonRoots.length)];
+            root = randomRoot.slice(0, 3); // Take only the 3 letters, not the meaning
+        }
         
         // Select random form from allowed forms
         const randomForm = allowedForms[Math.floor(Math.random() * allowedForms.length)];

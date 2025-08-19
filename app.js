@@ -21,6 +21,7 @@ class ArabicPracticeApp {
         this.settingsPanel = document.getElementById('settingsPanel');
         this.formCheckboxes = document.querySelectorAll('.form-checkbox');
         this.typeCheckboxes = document.querySelectorAll('.type-checkbox');
+        this.learningModeRadios = document.querySelectorAll('input[name="learningMode"]');
         this.startPracticeBtn = document.getElementById('startPractice');
 
         // Flashcard elements
@@ -121,9 +122,15 @@ class ArabicPracticeApp {
         return selected;
     }
 
+    getSelectedLearningMode() {
+        const selectedRadio = document.querySelector('input[name="learningMode"]:checked');
+        return selectedRadio ? selectedRadio.value : 'patterns';
+    }
+
     startPracticeSession() {
         const selectedForms = this.getSelectedForms();
         const selectedTypes = this.getSelectedTypes();
+        const learningMode = this.getSelectedLearningMode();
 
         if (selectedForms.length === 0) {
             alert('Please select at least one verb form.');
@@ -136,7 +143,7 @@ class ArabicPracticeApp {
         }
 
         // Generate session
-        this.currentSession = this.generateSession(selectedForms, selectedTypes, 20); // 20 cards per session
+        this.currentSession = this.generateSession(selectedForms, selectedTypes, 20, learningMode); // 20 cards per session
         this.currentCardIndex = 0;
         this.score = { correct: 0, total: 0 };
         this.isAnswerRevealed = false;
@@ -146,11 +153,11 @@ class ArabicPracticeApp {
         this.displayCurrentCard();
     }
 
-    generateSession(forms, types, cardCount) {
+    generateSession(forms, types, cardCount, learningMode = 'mixed') {
         const cards = [];
         for (let i = 0; i < cardCount; i++) {
             try {
-                const card = this.engine.generatePracticeCard(forms, types);
+                const card = this.engine.generatePracticeCard(forms, types, learningMode);
                 cards.push(card);
             } catch (error) {
                 console.error('Error generating card:', error);
