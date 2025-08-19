@@ -378,6 +378,15 @@ class ArabicPracticeApp {
     showReferenceTable() {
         this.referenceOverlay.style.display = 'flex';
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        
+        // Scroll table to top-right position when opened
+        setTimeout(() => {
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                tableContainer.scrollTop = 0; // Top
+                tableContainer.scrollLeft = tableContainer.scrollWidth; // Right (for RTL table)
+            }
+        }, 50); // Small delay to ensure the table is rendered
     }
 
     hideReferenceTable() {
@@ -440,7 +449,8 @@ class ArabicPracticeApp {
             // Form number (rightmost column)
             const formCell = document.createElement('td');
             formCell.className = 'form-number';
-            formCell.textContent = `${form.name}`;
+            // Remove "Form " from the name if present
+            formCell.textContent = form.name.replace(/^Form\s*/i, '');
             row.appendChild(formCell);
 
             tbody.appendChild(row);

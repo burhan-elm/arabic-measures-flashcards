@@ -518,18 +518,22 @@ body {
 
 .reference-content {
     padding: 0;
-    overflow: auto;
+    overflow: hidden;
     max-height: calc(90vh - 80px);
+    position: relative;
 }
 
 .table-container {
-    overflow-x: auto;
+    overflow: auto;
+    max-height: calc(90vh - 80px);
+    position: relative;
 }
 
 .verb-forms-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
+    position: relative;
 }
 
 .verb-forms-table th {
@@ -540,9 +544,11 @@ body {
     font-weight: 600;
     font-size: 0.85rem;
     white-space: nowrap;
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20;
+    border: 1px solid #38a169;
 }
 
 .verb-forms-table td {
@@ -550,9 +556,55 @@ body {
     text-align: center;
     border-bottom: 1px solid #e2e8f0;
     vertical-align: middle;
+    border: 1px solid #e2e8f0;
+}
+
+/* Make the form number column (rightmost) sticky */
+.verb-forms-table th:last-child,
+.verb-forms-table td:last-child {
+    position: -webkit-sticky;
+    position: sticky;
+    right: 0;
+    z-index: 15;
+    background: white;
+    border-left: none;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.verb-forms-table th:last-child {
+    background: #48bb78;
+    z-index: 25;
+    border-left: none;
+}
+
+/* Add vertical divider as a pseudo-element on the sticky column */
+.verb-forms-table td:last-child::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #38a169;
+    z-index: 1;
+}
+
+.verb-forms-table th:last-child::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #2f855a;
+    z-index: 1;
 }
 
 .verb-forms-table tr:nth-child(even) {
+    background: #f7fafc;
+}
+
+.verb-forms-table tr:nth-child(even) td:last-child {
     background: #f7fafc;
 }
 
@@ -560,11 +612,16 @@ body {
     background: #edf2f7;
 }
 
+.verb-forms-table tr:hover td:last-child {
+    background: #edf2f7;
+}
+
 .verb-forms-table .form-number {
     font-weight: 600;
     color: #2d3748;
-    background: #e2e8f0;
+    background: inherit;
     font-size: 1rem;
+    position: relative;
 }
 
 .verb-forms-table .arabic-pattern {
@@ -871,7 +928,11 @@ body {
         margin-bottom: 0.75rem;
     }
     
-    .form-checkboxes,
+    .form-checkboxes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.15rem;
+    }
+    
     .type-checkboxes {
         grid-template-columns: 1fr;
         gap: 0.15rem;
