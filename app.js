@@ -221,7 +221,7 @@ class ArabicPracticeApp {
         this.answerSection.style.display = 'block';
         
         // Populate answer details
-        this.answerRoot.textContent = card.answer.rootDisplay;
+        this.answerRoot.innerHTML = `${card.answer.rootDisplay} <span class="root-meaning">(${card.answer.meaning})</span>`;
         this.answerForm.textContent = card.answer.formName;
         this.answerFormDesc.textContent = card.answer.formDescription;
         this.answerType.textContent = card.answer.typeName;

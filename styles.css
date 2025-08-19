@@ -334,6 +334,14 @@ body {
     font-weight: 600;
 }
 
+.root-meaning {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8em;
+    direction: ltr;
+    font-weight: 400;
+    color: #4a5568;
+}
+
 #answerRoot,
 #answerPattern {
     font-size: 1.3rem;
@@ -800,6 +808,10 @@ body {
     .answer-details p {
         margin-bottom: 0.5rem;
         font-size: 0.9rem;
+    }
+    
+    .root-meaning {
+        font-size: 0.75em;
     }
     
     .card-controls {
